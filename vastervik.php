@@ -65,7 +65,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			
 			echo "<h3>".$team." (".$color.") "."<bigger>".$sum."</bigger></h3>" . "<p> Team Manager: " . $manager."</p>";
 			
-			$ask_rider = "SELECT riders.name,vastervik.number,vastervik.points,vastervik.sum FROM teams,riders,vastervik WHERE teams.team='$team' AND riders.team=teams.idteam AND vastervik.idrider=riders.idrider AND vastervik.number>0 ORDER BY number";
+			$ask_rider = "SELECT vastervik.idrider,riders.name,vastervik.number,vastervik.points,vastervik.sum FROM teams,riders,vastervik WHERE teams.team='$team' AND riders.team=teams.idteam AND vastervik.idrider=riders.idrider AND vastervik.number>0 ORDER BY number";
 			
 			$res1 = @$connection->query($ask_rider);
 			if($res1)

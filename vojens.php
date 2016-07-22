@@ -67,11 +67,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			
 			
 			
-<<<<<<< HEAD
 			$ask_rider = "SELECT vojens.idrider,riders.name,vojens.number,vojens.points FROM teams,riders,vojens WHERE teams.team='$team' AND riders.team=teams.idteam AND vojens.idrider=riders.idrider AND vojens.number>0 ORDER BY number";
-=======
-			$ask_rider = "SELECT riders.name,vojens.number,vojens.points,vojens.sum FROM teams,riders,vojens WHERE teams.team='$team' AND riders.team=teams.idteam AND vojens.idrider=riders.idrider AND vojens.number>0 ORDER BY number";
->>>>>>> origin/master
 			
 			$res1 = @$connection->query($ask_rider);
 			if($res1)

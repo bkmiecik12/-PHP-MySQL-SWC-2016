@@ -72,7 +72,31 @@ function flash(id, kolor, czas, kolor2, czas2)
 			{
 				while($row1 = $res1->fetch_array())
 				{
-					printf("%d. %'.-40s %d (%s)",$row1['number'],$row1['name'],$row1['sum'],$row1['points']);
+					$number=$row1['number'];
+					$name=$row1['name'];
+					$points=$row1['points'];
+					$sum=0;
+					$idr=$row1['idrider'];
+					
+					for($i=0;$i<strlen($points);$i++)
+					{
+						if($points[$i]>'0' && $points[$i]<='3') $sum+=$points[$i];
+					}
+					
+					$update="UPDATE vastervik SET sum = '$sum' WHERE idrider='$idr'";
+					
+					@$connection->query($update);
+					
+					printf("%d. %'.-40s %d ",$number,$name,$sum);
+					if(strlen($points)>0)
+					{
+						printf("(");
+						for($i=0;$i<strlen($points)-1;$i++)
+						{
+							printf("%s,",$points[$i]);
+						}
+						printf("%s)",$points[$i]);
+					}
 					echo "</br>";
 				}
 			}

@@ -11,11 +11,11 @@
 		<h2>[<a href="vastervik.php">Event 2 (Västervik)</a>] </h2>
 		<h2>[<a href="raceoff.php">Race Off (Manchester)</a>] </h2>
 		<h2>[<a href="final.php">Final (Manchester)</a>] </h2>
+		<p>[<a href="complete.php">Complete results</a>] </p>
 	</form>
-<?php
+	
+	
 
-
-?>
 
 </body>
 </html>

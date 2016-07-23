@@ -24,7 +24,7 @@
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE event='Vojens' AND colors.idcolor=teams.sh ORDER BY sh";
+	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE (event='Vojens' OR event='Vastervik') AND colors.idcolor=teams.sh ORDER BY event DESC, sh";
 	
 	$res=@$connection->query($ask_team);
 	

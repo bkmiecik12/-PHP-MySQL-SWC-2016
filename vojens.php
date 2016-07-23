@@ -100,10 +100,16 @@ function flash(id, kolor, czas, kolor2, czas2)
 						printf("%s)",$points[$i]);
 					}
 					echo "</br>";
+					
+					
 				}
 			}
 			else echo "skopane";
 			echo "<br />";
+			
+			$updres="UPDATE teams SET semiplace = '$sum' WHERE team='$team'";
+					
+			@$connection->query($updres);
 			
 		}
 	}

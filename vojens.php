@@ -22,7 +22,8 @@ function flash(id, kolor, czas, kolor2, czas2)
 		[<a href="vastervik.php">Event 2 (Västervik)</a>]
 		[<a href="raceoff.php">Race Off (Manchester)</a>]
 		[<a href="final.php">Final (Manchester)</a>]
-	</p><h2>Event 1 (Vojens)</h2>
+	</p><b>Event 1 (Vojens)</b> [<a href="complete.php">Complete results</a>] </h3>
+	
 	<form style='font-family: monospace' >
 	<font size=4>
 <?php
@@ -63,7 +64,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			else echo "skopane";
 			
 			
-			echo "<h3>".$team." (".$color.") "."<bigger>".$sumt."</bigger></h3>" . "<p> Team Manager: " . $manager."</p>";
+			echo "<h4>".$team." (".$color.") "."<bigger>".$sumt."</bigger></h4>" . "<p> Team Manager: " . $manager."</p>";
 			
 			
 			
@@ -107,12 +108,26 @@ function flash(id, kolor, czas, kolor2, czas2)
 			else echo "skopane";
 			echo "<br />";
 			
-			$updres="UPDATE teams SET semiplace = '$sumt' WHERE team='$team'";
-					
+			$updres="UPDATE teams SET semiplace = '$sumt' WHERE team='$team'";		
 			@$connection->query($updres);
+			
 			
 		}
 	}
+			$actualplaces="SELECT team FROM teams WHERE event='Vojens' ORDER BY semiplace DESC, idteam ASC";
+			$res3=@$connection->query($actualplaces);
+			$place=1;
+			$prize1="";
+			$prize2="";
+			echo "Current results</br>";
+			while($row3 = $res3->fetch_array())
+			{
+					if($place==1) {$prize1="<b>"; $prize2="</b>";}
+					else if($place==2 || $place==3) {$prize1="<i>"; $prize2="</i>";}
+					else if($place==4) {$prize1=""; $prize2="";}
+					printf("%d. %s%s%s</br>",$place,$prize1,$row3['team'],$prize2);
+					$place++;
+			}
 	
 	$res->close();
 	

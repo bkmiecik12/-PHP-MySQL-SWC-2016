@@ -7,7 +7,7 @@
 
 $idrider=$_POST['idr'];
 $points=$_POST['points'];
-//$event=$_POST['event'];
+$event=$_POST['event'];
 $clear=isset($_POST['clr']);
 
 
@@ -15,7 +15,7 @@ $clear=isset($_POST['clr']);
 	if($clear==1) 
 	{
 		$points="";
-		$add="UPDATE vojens SET points = '$points' WHERE idrider=$idrider;";
+		$add="UPDATE $event SET points = '$points' WHERE idrider=$idrider;";
 		@$connection->query($add);
 		printf("Rider no.%d gets points cleared",$idrider);
 		header('Location: complete.php');
@@ -23,7 +23,7 @@ $clear=isset($_POST['clr']);
 	
 	else if(strlen($points)>0)
 	{
-		$add="UPDATE vojens SET points = $points WHERE idrider=$idrider;";
+		$add="UPDATE $event SET points = $points WHERE idrider=$idrider;";
 		@$connection->query($add);
 		printf("Rider no.%d gets %s points",$idrider,$points);
 		header('Location: complete.php');

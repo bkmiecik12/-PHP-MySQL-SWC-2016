@@ -5,7 +5,7 @@
 	<title>Monster Energy FIM Speedway World Cup 2016</title>
 </head>
 <body>
-	<h1>Monster Energy FIM Speedway World Cup 2016</h1>
+	<h2>Monster Energy FIM Speedway World Cup 2016</h2>
 	<form>
 		<p>[<a href="vojens.php">Event 1 (Vojens)</a>] 
 		[<a href="vastervik.php">Event 2 (Västervik)</a>] 
@@ -58,7 +58,7 @@
 					$points=$row1['points'];
 					$idr=$row1['idrider'];
 					
-					printf("%d. %'.-30s <input type='text' value='$points' name='points'/><input type='hidden' value=$idr name='idr'/><input type='submit' value='Add points'/><input type='submit' value='Clear' name='clr'/>",$number,$name,$name);
+					printf("%d. %'.-30s <input type='text' value='$points' name='points'/><input type='hidden' value=$idr name='idr'/><input type='hidden' value=$event name='event'/><input type='submit' value='Add points'/><input type='submit' value='Clear' name='clr'/>",$number,$name,$name);
 					echo "</form>";
 					echo "</br>";
 				}

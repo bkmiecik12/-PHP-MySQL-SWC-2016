@@ -14,9 +14,9 @@ function flash(id, kolor, czas, kolor2, czas2)
 </script>
 </head>
 <body>
-	<h1>Monster Energy FIM Speedway World Cup 2016 - Event 1 (Vojens)
+	<h2>Monster Energy FIM Speedway World Cup 2016 - Event 1 (Vojens)
 	
-	</h1>
+	</h2>
 	<p>
 		[<a href="index.php">Main page</a>]
 		[<a href="vastervik.php">Event 2 (Västervik)</a>]
@@ -108,13 +108,13 @@ function flash(id, kolor, czas, kolor2, czas2)
 			else echo "skopane";
 			echo "<br />";
 			
-			$updres="UPDATE teams SET semiplace = '$sumt' WHERE team='$team'";		
+			$updres="UPDATE teams SET semipoints = '$sumt' WHERE team='$team'";		
 			@$connection->query($updres);
 			
 			
 		}
 	}
-			$actualplaces="SELECT team FROM teams WHERE event='Vojens' ORDER BY semiplace DESC, idteam ASC";
+			$actualplaces="SELECT team FROM teams WHERE event='Vojens' ORDER BY semipoints DESC, idteam ASC";
 			$res3=@$connection->query($actualplaces);
 			$place=1;
 			$prize1="";
@@ -122,10 +122,13 @@ function flash(id, kolor, czas, kolor2, czas2)
 			echo "Current results</br>";
 			while($row3 = $res3->fetch_array())
 			{
+					$team=$row3['team'];
 					if($place==1) {$prize1="<b>"; $prize2="</b>";}
 					else if($place==2 || $place==3) {$prize1="<i>"; $prize2="</i>";}
 					else if($place==4) {$prize1=""; $prize2="";}
-					printf("%d. %s%s%s</br>",$place,$prize1,$row3['team'],$prize2);
+					printf("%d. %s%s%s</br>",$place,$prize1,$team,$prize2);
+					$newplace="UPDATE teams SET semiplace='$place' WHERE team='$team'";
+					@$connection->query($newplace);
 					$place++;
 			}
 	

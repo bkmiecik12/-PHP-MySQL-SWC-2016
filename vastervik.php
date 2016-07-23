@@ -14,15 +14,16 @@ function flash(id, kolor, czas, kolor2, czas2)
 </script>
 </head>
 <body>
-	<h1>Monster Energy FIM Speedway World Cup 2016 - Event 2 (Västervik)
+	<h2>Monster Energy FIM Speedway World Cup 2016 - Event 2 (Västervik)
 	
-	</h1>
+	</h2>
 	<p>
 		[<a href="index.php">Main page</a>]
 		[<a href="vojens.php">Event 1 (Vojens)</a>]
 		[<a href="raceoff.php">Race Off (Manchester)</a>]
 		[<a href="final.php">Final (Manchester)</a>]
-	</p><h2>Event 2 (Västervik)</h2>
+	</p><b>Event 2 (Västervik)</b> [<a href="complete.php">Complete results</a>] </h3>
+	
 	<form style='font-family: monospace' >
 	<font size=4>
 <?php
@@ -48,7 +49,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			$team = $row['team'];
 			$manager = $row['manager'];
 			$color = $row['color'];
-			$sum=0;
+			$sumt=0;
 			
 			$to_sum = "SELECT sum FROM vastervik,teams,riders WHERE teams.team='$team' AND riders.team=teams.idteam AND vastervik.idrider=riders.idrider";
 			
@@ -57,15 +58,17 @@ function flash(id, kolor, czas, kolor2, czas2)
 			{
 				while($row2 = $res2->fetch_array())
 				{
-					$sum+=$row2['sum'];
+					$sumt+=$row2['sum'];
 				}
 			}
 			else echo "skopane";
 			
 			
-			echo "<h3>".$team." (".$color.") "."<bigger>".$sum."</bigger></h3>" . "<p> Team Manager: " . $manager."</p>";
+			echo "<h4>".$team." (".$color.") "."<bigger>".$sumt."</bigger></h4>" . "<p> Team Manager: " . $manager."</p>";
 			
-			$ask_rider = "SELECT vastervik.idrider,riders.name,vastervik.number,vastervik.points,vastervik.sum FROM teams,riders,vastervik WHERE teams.team='$team' AND riders.team=teams.idteam AND vastervik.idrider=riders.idrider AND vastervik.number>0 ORDER BY number";
+			
+			
+			$ask_rider = "SELECT vastervik.idrider,riders.name,vastervik.number,vastervik.points FROM teams,riders,vastervik WHERE teams.team='$team' AND riders.team=teams.idteam AND vastervik.idrider=riders.idrider AND vastervik.number>0 ORDER BY number";
 			
 			$res1 = @$connection->query($ask_rider);
 			if($res1)
@@ -75,19 +78,19 @@ function flash(id, kolor, czas, kolor2, czas2)
 					$number=$row1['number'];
 					$name=$row1['name'];
 					$points=$row1['points'];
-					$sum=0;
+					$sumr=0;
 					$idr=$row1['idrider'];
 					
 					for($i=0;$i<strlen($points);$i++)
 					{
-						if($points[$i]>'0' && $points[$i]<='6') $sum+=$points[$i];
+						if($points[$i]>'0' && $points[$i]<='6') $sumr+=$points[$i];
 					}
 					
-					$update="UPDATE vastervik SET sum = '$sum' WHERE idrider='$idr'";
+					$update="UPDATE vastervik SET sum = '$sumr' WHERE idrider='$idr'";
 					
 					@$connection->query($update);
 					
-					printf("%d. %'.-40s %d ",$number,$name,$sum);
+					printf("%d. %'.-40s %d ",$number,$name,$sumr);
 					if(strlen($points)>0)
 					{
 						printf("(");
@@ -98,13 +101,36 @@ function flash(id, kolor, czas, kolor2, czas2)
 						printf("%s)",$points[$i]);
 					}
 					echo "</br>";
+					
+					
 				}
 			}
 			else echo "skopane";
 			echo "<br />";
 			
+			$updres="UPDATE teams SET semipoints = '$sumt' WHERE team='$team'";		
+			@$connection->query($updres);
+			
+			
 		}
 	}
+			$actualplaces="SELECT team FROM teams WHERE event='Vastervik' ORDER BY semipoints DESC, idteam ASC";
+			$res3=@$connection->query($actualplaces);
+			$place=1;
+			$prize1="";
+			$prize2="";
+			echo "Current results</br>";
+			while($row3 = $res3->fetch_array())
+			{
+					$team=$row3['team'];
+					if($place==1) {$prize1="<b>"; $prize2="</b>";}
+					else if($place==2 || $place==3) {$prize1="<i>"; $prize2="</i>";}
+					else if($place==4) {$prize1=""; $prize2="";}
+					printf("%d. %s%s%s</br>",$place,$prize1,$team,$prize2);
+					$newplace="UPDATE teams SET semiplace='$place' WHERE team='$team'";
+					@$connection->query($newplace);
+					$place++;
+			}
 	
 	$res->close();
 	

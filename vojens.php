@@ -48,7 +48,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			$team = $row['team'];
 			$manager = $row['manager'];
 			$color = $row['color'];
-			$sum=0;
+			$sumt=0;
 			
 			$to_sum = "SELECT sum FROM vojens,teams,riders WHERE teams.team='$team' AND riders.team=teams.idteam AND vojens.idrider=riders.idrider";
 			
@@ -57,13 +57,13 @@ function flash(id, kolor, czas, kolor2, czas2)
 			{
 				while($row2 = $res2->fetch_array())
 				{
-					$sum+=$row2['sum'];
+					$sumt+=$row2['sum'];
 				}
 			}
 			else echo "skopane";
 			
 			
-			echo "<h3>".$team." (".$color.") "."<bigger>".$sum."</bigger></h3>" . "<p> Team Manager: " . $manager."</p>";
+			echo "<h3>".$team." (".$color.") "."<bigger>".$sumt."</bigger></h3>" . "<p> Team Manager: " . $manager."</p>";
 			
 			
 			
@@ -77,19 +77,19 @@ function flash(id, kolor, czas, kolor2, czas2)
 					$number=$row1['number'];
 					$name=$row1['name'];
 					$points=$row1['points'];
-					$sum=0;
+					$sumr=0;
 					$idr=$row1['idrider'];
 					
 					for($i=0;$i<strlen($points);$i++)
 					{
-						if($points[$i]>'0' && $points[$i]<='6') $sum+=$points[$i];
+						if($points[$i]>'0' && $points[$i]<='6') $sumr+=$points[$i];
 					}
 					
-					$update="UPDATE vojens SET sum = '$sum' WHERE idrider='$idr'";
+					$update="UPDATE vojens SET sum = '$sumr' WHERE idrider='$idr'";
 					
 					@$connection->query($update);
 					
-					printf("%d. %'.-40s %d ",$number,$name,$sum);
+					printf("%d. %'.-40s %d ",$number,$name,$sumr);
 					if(strlen($points)>0)
 					{
 						printf("(");
@@ -107,7 +107,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			else echo "skopane";
 			echo "<br />";
 			
-			$updres="UPDATE teams SET semiplace = '$sum' WHERE team='$team'";
+			$updres="UPDATE teams SET semiplace = '$sumt' WHERE team='$team'";
 					
 			@$connection->query($updres);
 			

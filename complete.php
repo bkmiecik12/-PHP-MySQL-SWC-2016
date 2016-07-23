@@ -32,9 +32,8 @@
 		$counter=0;
 		while($row = $res->fetch_array())
 		{
-			if($counter==0) echo "<frameset cols='180,*' border='0' frameborder='0' framespacing='0'>
-		<frame>Vojens";
-			if($counter==3) echo "<frame/>Västervik";
+			if($counter==0) echo "<h2>Vojens</h2>";
+			if($counter==3) echo "<h2>Västervik</h2>";
 			$event=$row['event'];
 			$team = $row['team'];
 			$manager = $row['manager'];

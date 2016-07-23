@@ -39,7 +39,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager,color FROM teams,colors,events WHERE (events.idevent BETWEEN 1 AND 3) AND events.raced=1 AND colors.idcolor=teams.sh ORDER BY sh";
+	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE colors.idcolor=teams.fh AND (semiplace = 1 OR roplace = 1 OR teams.event = 'Final') ORDER BY sh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -65,14 +65,14 @@ function flash(id, kolor, czas, kolor2, czas2)
 						$sumt+=$row2['sum'];
 					}
 				}
-				else echo "skopane";
+				else echo "skopane1";
 			
 			
 				echo "<h4>".$team." (".$color.") "."<bigger>".$sumt."</bigger></h4>" . "<p> Team Manager: " . $manager."</p>";
 			
 			
 			
-				$ask_rider = "SELECT $venue.idrider,riders.name,$place.number,$place.points FROM teams,riders,$place WHERE teams.team='$team' AND riders.team=teams.idteam AND $venue.idrider=riders.idrider AND $venue.number>0 ORDER BY number";
+				$ask_rider = "SELECT $venue.idrider,riders.name,$venue.number,$venue.points FROM teams,riders,$venue WHERE teams.team='$team' AND riders.team=teams.idteam AND $venue.idrider=riders.idrider AND $venue.number>0 ORDER BY number";
 			
 				$res1 = @$connection->query($ask_rider);
 				if($res1)
@@ -109,7 +109,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 					
 					}
 				}
-				else echo "skopane";
+				else echo "skopane2";
 				echo "<br />";
 			
 				$updres="UPDATE teams SET semipoints = '$sumt' WHERE team='$team'";		
@@ -137,13 +137,13 @@ function flash(id, kolor, czas, kolor2, czas2)
 				
 		}
 	}
-	else {echo "Skopane";}
+	else {echo "Skopane3";}
 			
 	$res->close();
 	
 	
 			
-		
+/*		
 ?>
 </font>
 </form>
@@ -219,4 +219,4 @@ function flash(id, kolor, czas, kolor2, czas2)
 ?>
 </form>
 </body>
-</html>
+</html>*/

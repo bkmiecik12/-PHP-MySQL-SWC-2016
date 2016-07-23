@@ -39,7 +39,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager,color FROM teams,colors,events WHERE (events.idevent BETWEEN 1 AND 2) AND events.raced=1 AND colors.idcolor=teams.sh ORDER BY sh";
+	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE  colors.idcolor=teams.rh AND teams.semiplace BETWEEN 2 AND 3 ORDER BY sh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -72,7 +72,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			
 			
 			
-				$ask_rider = "SELECT $venue.idrider,riders.name,$place.number,$place.points FROM teams,riders,$place WHERE teams.team='$team' AND riders.team=teams.idteam AND $venue.idrider=riders.idrider AND $venue.number>0 ORDER BY number";
+				$ask_rider = "SELECT $venue.idrider,riders.name,$venue.number,$venue.points FROM teams,riders,$venue WHERE teams.team='$team' AND riders.team=teams.idteam AND $venue.idrider=riders.idrider AND $venue.number>0 ORDER BY number";
 			
 				$res1 = @$connection->query($ask_rider);
 				if($res1)
@@ -112,12 +112,12 @@ function flash(id, kolor, czas, kolor2, czas2)
 				else echo "skopane";
 				echo "<br />";
 			
-				$updres="UPDATE teams SET semipoints = '$sumt' WHERE team='$team'";		
+				$updres="UPDATE teams SET ropoints = '$sumt' WHERE team='$team'";		
 				@$connection->query($updres);
 			
 			
 			}
-				$actualplaces="SELECT team FROM teams WHERE event='Vastervik' ORDER BY semipoints DESC, idteam ASC";
+				$actualplaces="SELECT team FROM teams WHERE semiplace BETWEEN 2 AND 3 ORDER BY ropoints DESC, idteam ASC";
 				$res3=@$connection->query($actualplaces);
 				$place=1;
 				$prize1="";

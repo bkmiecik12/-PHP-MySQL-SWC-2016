@@ -33,7 +33,7 @@
 		while($row = $res->fetch_array())
 		{
 			if($counter==0) echo "<h2>Vojens</h2>";
-			if($counter==3) echo "<h2>Västervik</h2>";
+			if($counter==4) echo "<h2>Västervik</h2>";
 			$event=$row['event'];
 			$team = $row['team'];
 			$manager = $row['manager'];

@@ -12,7 +12,6 @@
 		[<a href="raceoff.php">Race Off (Manchester)</a>] 
 		[<a href="final.php">Final (Manchester)</a>] </p>
 	</form>
-	Vojens
 	<?php
 	require_once "connect.php";
 	
@@ -24,26 +23,29 @@
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE (event='Vojens' OR event='Vastervik') AND colors.idcolor=teams.sh ORDER BY event DESC, sh";
+	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE (event='Vojens' OR event='Vastervik') AND colors.idcolor=teams.sh ORDER BY event DESC, sh";
 	
 	$res=@$connection->query($ask_team);
 	
 	if($res)
 	{
+		$counter=0;
 		while($row = $res->fetch_array())
 		{
+			if($counter==0) echo "<frame>Vojens";
+			if($counter==3) echo "</frame><frame>Västervik";
+			$event=$row['event'];
 			$team = $row['team'];
 			$manager = $row['manager'];
 			$color = $row['color'];
 			$sum=0;
 			
-			$to_sum = "SELECT sum FROM vojens,teams,riders WHERE teams.team='$team' AND riders.team=teams.idteam AND vojens.idrider=riders.idrider";
 				
 			
 			echo "<h3>".$team." (".$color.") </h3><p> Team Manager: " . $manager."</p>";
 			
 			
-			$ask_rider = "SELECT vojens.idrider,riders.name,vojens.number,vojens.points FROM teams,riders,vojens WHERE teams.team='$team' AND riders.team=teams.idteam AND vojens.idrider=riders.idrider AND vojens.number>0 ORDER BY number";
+			$ask_rider = "SELECT $event.idrider,riders.name,$event.number,$event.points FROM teams,riders,$event WHERE teams.team='$team' AND riders.team=teams.idteam AND $event.idrider=riders.idrider AND $event.number>0 ORDER BY number";
 			
 			$res1 = @$connection->query($ask_rider);
 			if($res1)
@@ -56,15 +58,16 @@
 					$points=$row1['points'];
 					$idr=$row1['idrider'];
 					
-					printf("%02d. %'.-30s <input type='text' name='points'/><input type='hidden' value=$idr name='idr'/><input type='submit' value='Add points'/>",$idr,$name,$name);
+					printf("%d. %'.-30s <input type='text' name='points'/><input type='hidden' value=$idr name='idr'/><input type='submit' value='Add points'/>",$number,$name,$name);
 					echo "</form>";
 					echo "</br>";
 				}
 			}
 			else echo "skopane";
 			echo "<br />";
-			
+			$counter++;
 		}
+		echo "</frame>";
 	}
 	$res->close();
 

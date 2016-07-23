@@ -32,8 +32,9 @@
 		$counter=0;
 		while($row = $res->fetch_array())
 		{
-			if($counter==0) echo "<frame>Vojens";
-			if($counter==3) echo "</frame><frame>Västervik";
+			if($counter==0) echo "<frameset cols='180,*' border='0' frameborder='0' framespacing='0'>
+		<frame>Vojens";
+			if($counter==3) echo "<frame/>Västervik";
 			$event=$row['event'];
 			$team = $row['team'];
 			$manager = $row['manager'];
@@ -58,16 +59,15 @@
 					$points=$row1['points'];
 					$idr=$row1['idrider'];
 					
-					printf("%d. %'.-30s <input type='text' name='points'/><input type='hidden' value=$idr name='idr'/><input type='submit' value='Add points'/>",$number,$name,$name);
+					printf("%d. %'.-30s <input type='text' value='$points' name='points'/><input type='hidden' value=$idr name='idr'/><input type='submit' value='Add points'/><input type='submit' value='Clear' name='clr'/>",$number,$name,$name);
 					echo "</form>";
 					echo "</br>";
 				}
 			}
 			else echo "skopane";
-			echo "<br />";
+			echo "<br /></frameset>";
 			$counter++;
 		}
-		echo "</frame>";
 	}
 	$res->close();
 

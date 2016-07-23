@@ -80,7 +80,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 					
 					for($i=0;$i<strlen($points);$i++)
 					{
-						if($points[$i]>'0' && $points[$i]<='3') $sum+=$points[$i];
+						if($points[$i]>'0' && $points[$i]<='6') $sum+=$points[$i];
 					}
 					
 					$update="UPDATE vastervik SET sum = '$sum' WHERE idrider='$idr'";

@@ -12,7 +12,6 @@
 		[<a href="raceoff.php">Race Off (Manchester)</a>] 
 		[<a href="final.php">Final (Manchester)</a>] </p>
 	</form>
-<form style='font-family: monospace' >
 	Vojens
 	<?php
 	require_once "connect.php";
@@ -51,12 +50,14 @@
 			{
 				while($row1 = $res1->fetch_array())
 				{
+					echo "<form action=add.php method='post' style='font-family: monospace'>";
 					$number=$row1['number'];
 					$name=$row1['name'];
 					$points=$row1['points'];
 					$idr=$row1['idrider'];
 					
-					printf("%02d. %'.-30s <input type='text' name='points'/><input type='submit' value='Add points'/>",$idr,$name,$name);
+					printf("%02d. %'.-30s <input type='text' name='points'/><input type='hidden' value=$idr name='idr'/><input type='submit' value='Add points'/>",$idr,$name,$name);
+					echo "</form>";
 					echo "</br>";
 				}
 			}
@@ -68,7 +69,6 @@
 	$res->close();
 
 ?>
-	</form>
 
 </body>
 </html>

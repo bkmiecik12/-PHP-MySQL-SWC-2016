@@ -39,7 +39,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE colors.idcolor=teams.fh AND (semiplace = 1 OR roplace = 1 OR teams.event = 'Final') ORDER BY sh";
+	$ask_team= "SELECT team,manager FROM teams WHERE (semiplace = 1 OR roplace = 1 OR teams.event = 'Final') ORDER BY fh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -52,7 +52,8 @@ function flash(id, kolor, czas, kolor2, czas2)
 			{
 				$team = $row['team'];
 				$manager = $row['manager'];
-				$color = $row['color'];
+				//$color = $row['color'];
+				$color="NONE";
 				$sumt=0;
 			
 				$to_sum = "SELECT sum FROM $venue,teams,riders WHERE teams.team='$team' AND riders.team=teams.idteam AND $venue.idrider=riders.idrider";
@@ -117,7 +118,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 			
 			
 			}
-				$actualplaces="SELECT team FROM teams WHERE event='Vastervik' ORDER BY semipoints DESC, idteam ASC";
+				$actualplaces="SELECT team FROM teams WHERE (semiplace = 1 OR roplace = 1 OR teams.event = 'Final') ORDER BY finalpoints DESC, idteam ASC";
 				$res3=@$connection->query($actualplaces);
 				$place=1;
 				$prize1="";
@@ -130,7 +131,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 					else if($place==2 || $place==3) {$prize1="<i>"; $prize2="</i>";}
 					else if($place==4) {$prize1=""; $prize2="";}
 					printf("%d. %s%s%s</br>",$place,$prize1,$team,$prize2);
-					$newplace="UPDATE teams SET roplace='$place' WHERE team='$team'";
+					$newplace="UPDATE teams SET finalplace='$place' WHERE team='$team'";
 					@$connection->query($newplace);
 					$place++;
 				}

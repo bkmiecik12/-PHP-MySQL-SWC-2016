@@ -90,10 +90,10 @@ function flash(id, kolor, czas, kolor2, czas2)
 					
 					@$connection->query($update);
 					
-					printf("%d. %'.-40s %d ",$number,$name,$sumr);
+					printf("%d. %'.-40s %d  ",$number,$name,$sumr);
 					if(strlen($points)>0)
 					{
-						printf("(");
+						printf(" (");
 						for($i=0;$i<strlen($points)-1;$i++)
 						{
 							printf("%s,",$points[$i]);
@@ -133,7 +133,6 @@ function flash(id, kolor, czas, kolor2, czas2)
 			}
 	
 	$res->close();
-	
 			
 		
 ?>

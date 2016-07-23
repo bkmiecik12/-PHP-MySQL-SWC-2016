@@ -23,7 +23,7 @@ $clear=isset($_POST['clr']);
 	
 	else if(strlen($points)>0)
 	{
-		$add="UPDATE $event SET points = $points WHERE idrider=$idrider;";
+		$add="UPDATE $event SET points = '$points' WHERE idrider=$idrider;";
 		@$connection->query($add);
 		printf("Rider no.%d gets %s points",$idrider,$points);
 		header('Location: complete.php');

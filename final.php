@@ -14,14 +14,14 @@ function flash(id, kolor, czas, kolor2, czas2)
 </script>
 </head>
 <body>
-	<h2>Monster Energy FIM Speedway World Cup 2016 - Race Off (Manchester)</h2>
+	<h2>Monster Energy FIM Speedway World Cup 2016 - Final (Manchester)</h2>
 	
 	<p>
 		[<a href="index.php">Main page</a>]
 		[<a href="vojens.php">Event 1 (Vojens)</a>]
 		[<a href="vastervik.php">Event 2 (Västervik)</a>]
-		[<a href="final.php">Final (Manchester)</a>]
-	</p><b>Race Off (Manchester)</b> [<a href="complete.php">Complete results</a>] </h3>
+		[<a href="raceoff.php">Race Off (Manchester)</a>]
+	</p><b>Final (Manchester)</b> [<a href="complete.php">Complete results</a>] </h3>
 	
 	<form style='font-family: monospace' >
 	<font size=4>

@@ -23,7 +23,7 @@
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE event='Vastervik' AND colors.idcolor=teams.sh ORDER BY event DESC, sh";
+	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE (event='Vastervik' AND colors.idcolor=teams.sh) ORDER BY event DESC, sh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -33,6 +33,8 @@
 		while($row = $res->fetch_array())
 		{
 			if($counter==0) echo "<h2>Västervik</h2>";
+			//if($counter==4) echo "<h2>Race Off</h2>";
+			//if($counter==8) echo "<h2>Final</h2>";
 			$event=$row['event'];
 			$team = $row['team'];
 			$manager = $row['manager'];

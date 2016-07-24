@@ -72,10 +72,14 @@ CREATE TABLE `teams` (
   `team` text COLLATE utf8_unicode_ci NOT NULL,
   `manager` text COLLATE utf8_unicode_ci NOT NULL,
   `event` text COLLATE utf8_unicode_ci NOT NULL,
+  `semipoints` int(11) NOT NULL,
   `semiplace` int(11) NOT NULL,
   `sh` int(11) NOT NULL,
+  `ropoints` int(11) NOT NULL,
   `roplace` int(11) NOT NULL,
   `rh` int(11) NOT NULL,
+  `finalpoints` int(11) NOT NULL,
+  `finalplace` int(11) NOT NULL,
   `fh` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -83,16 +87,16 @@ CREATE TABLE `teams` (
 -- Zrzut danych tabeli `teams`
 --
 
-INSERT INTO `teams` (`idteam`, `team`, `manager`, `event`, `semiplace`, `sh`, `roplace`, `rh`, `fh`) VALUES
-(1, 'Sweden', 'Morgan Andersson', 'Vastervik', 0, 4, 0, 0, 0),
-(2, 'Denmark', 'Hans Nielsen', 'Vojens', 0, 4, 0, 0, 0),
-(3, 'Poland', 'Marek Cieślak', 'Vojens', 0, 2, 0, 0, 0),
-(4, 'Russia', 'Andrei Savin', 'Vojens', 0, 1, 0, 0, 0),
-(5, 'Czech Republic', 'Milan Spinka', 'Vojens', 0, 3, 0, 0, 0),
-(6, 'Australia', 'Mark Lemon', 'Vastervik', 0, 1, 0, 0, 0),
-(7, 'USA', 'Lance King', 'Vastervik', 0, 2, 0, 0, 0),
-(8, 'Germany', 'Herbert Rudolph', 'Vastervik', 0, 3, 0, 0, 0),
-(9, 'Great Britain', '', 'Final', 0, 0, 0, 0, 0);
+INSERT INTO `teams` (`idteam`, `team`, `manager`, `event`, `semipoints`, `semiplace`, `sh`, `ropoints`, `roplace`, `rh`, `finalpoints`, `finalplace`, `fh`) VALUES
+(1, 'Sweden', 'Morgan Andersson', 'Vastervik', 0, 0, 4, 0, 0, 0, 0, 0, 0),
+(2, 'Denmark', 'Hans Nielsen', 'Vojens', 36, 2, 4, 0, 0, 0, 0, 0, 0),
+(3, 'Poland', 'Marek Cieślak', 'Vojens', 39, 1, 2, 0, 0, 0, 0, 1, 0),
+(4, 'Russia', 'Andrei Savin', 'Vojens', 32, 3, 1, 0, 0, 0, 0, 0, 0),
+(5, 'Czech Republic', 'Milan Spinka', 'Vojens', 19, 4, 3, 0, 0, 0, 0, 0, 0),
+(6, 'Australia', 'Mark Lemon', 'Vastervik', 0, 0, 1, 0, 0, 0, 0, 0, 0),
+(7, 'USA', 'Lance King', 'Vastervik', 0, 0, 2, 0, 0, 0, 0, 0, 0),
+(8, 'Germany', 'Herbert Rudolph', 'Vastervik', 0, 0, 3, 0, 0, 0, 0, 0, 0),
+(9, 'Great Britain', 'Alun Rossiter', 'Final', 0, 0, 0, 0, 0, 0, 0, 2, 0);
 
 --
 -- Indeksy dla zrzutów tabel

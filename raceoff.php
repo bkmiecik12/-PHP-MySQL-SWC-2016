@@ -39,7 +39,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager FROM teams WHERE  teams.semiplace BETWEEN 2 AND 3 ORDER BY rh";
+	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE  teams.semiplace BETWEEN 2 AND 3 AND teams.rh=colors.idcolor ORDER BY rh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -52,8 +52,8 @@ function flash(id, kolor, czas, kolor2, czas2)
 			{
 				$team = $row['team'];
 				$manager = $row['manager'];
-				//$color = $row['color'];
-				$color = "NONE";
+				$color = $row['color'];
+				//$color = "NONE";
 				$sumt=0;
 			
 				$to_sum = "SELECT sum FROM $venue,teams,riders WHERE teams.team='$team' AND riders.team=teams.idteam AND $venue.idrider=riders.idrider";

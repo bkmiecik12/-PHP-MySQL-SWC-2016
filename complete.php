@@ -23,7 +23,9 @@
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE (event='Vastervik' AND colors.idcolor=teams.sh) ORDER BY event DESC, sh";
+	$event="raceoff";
+	
+	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE (teams.semiplace BETWEEN 2 AND 3 AND colors.idcolor=teams.rh) ORDER BY event DESC, sh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -32,10 +34,10 @@
 		$counter=0;
 		while($row = $res->fetch_array())
 		{
-			if($counter==0) echo "<h2>Västervik</h2>";
+			if($counter==0) echo "<h2>Race Off</h2>";
 			//if($counter==4) echo "<h2>Race Off</h2>";
 			//if($counter==8) echo "<h2>Final</h2>";
-			$event=$row['event'];
+			
 			$team = $row['team'];
 			$manager = $row['manager'];
 			$color = $row['color'];
@@ -61,11 +63,11 @@
 					
 					printf("%d. %'.-30s <input type='text' value='$points' name='points'/><input type='hidden' value=$idr name='idr'/><input type='hidden' value=$event name='event'/><input type='submit' value='Add points'/><input type='submit' value='Clear' name='clr'/>",$number,$name,$name);
 					echo "</form>";
-					echo "</br>";
+					echo "<br/>";
 				}
 			}
 			else echo "skopane";
-			echo "<br /></frameset>";
+			echo "<br />";
 			$counter++;
 		}
 	}

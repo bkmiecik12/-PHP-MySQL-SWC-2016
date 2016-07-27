@@ -128,7 +128,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 					else if($place==4) {$prize1=""; $prize2="";}
 					printf("%d. %s%s%s</br>",$place,$prize1,$team,$prize2);
 					$newplace="UPDATE teams SET semiplace='$place' WHERE team='$team'";
-					//@$connection->query($newplace);
+					@$connection->query($newplace);
 					$place++;
 			}
 	

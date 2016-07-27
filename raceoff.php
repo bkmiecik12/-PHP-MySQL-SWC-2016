@@ -1,18 +1,10 @@
 ﻿<!DOCTYPE HTML>
-<html lang='pl'>
+<html lang='en'>
 <head>
 	<meta  charset="utf-8"/>
 	<title>Monster Energy FIM Speedway World Cup 2016</title>
-	<script type="text/javascript">
-// <![CDATA[
-function flash(id, kolor, czas, kolor2, czas2)
-{
-	document.getElementById(id).style.color = kolor;
-	setTimeout('flash("' + id + '","' + kolor2 + '",' + czas2 + ',"' + kolor + '",' + czas + ')', czas);
-}
-// ]]>
-</script>
 </head>
+
 <body>
 	<h2>Monster Energy FIM Speedway World Cup 2016 - Race Off (Manchester)</h2>
 	

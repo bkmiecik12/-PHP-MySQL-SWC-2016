@@ -13,7 +13,7 @@
 		[<a href="vojens.php">Event 1 (Vojens)</a>]
 		[<a href="vastervik.php">Event 2 (Västervik)</a>]
 		[<a href="final.php">Final (Manchester)</a>]
-	</p><b>Race Off (Manchester)</b> [<a href="complete.php">Complete results</a>] </h3>
+	</p><b>Race Off (Manchester)</b> [<a href="complete.php">Complete results</a>] [<a href="setnumbers.php">Set numbers</a>] </h3>
 	
 	<form style='font-family: monospace' >
 	<font size=4>

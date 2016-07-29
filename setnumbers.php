@@ -23,9 +23,9 @@
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$event="raceoff";
+	$event="final";
 	
-	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE (teams.semiplace BETWEEN 2 AND 3 AND colors.idcolor=teams.rh) ORDER BY event DESC, sh";
+	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE (teams.semiplace=1 OR teams.roplace=1 OR teams.event='Final') AND colors.idcolor=teams.rh ORDER BY event DESC, sh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -34,7 +34,7 @@
 		$counter=0;
 		while($row = $res->fetch_array())
 		{
-			if($counter==0) echo "<h2>Race Off</h2><form action=addnumbers.php method='post'><input type='submit' value='Clear all' name='ca'/><input type='hidden' value=$event name='event'/></form>";
+			if($counter==0) echo "<h2>Final</h2><form action=addnumbers.php method='post'><input type='submit' value='Clear all' name='ca'/><input type='hidden' value=$event name='event'/></form>";
 			//if($counter==4) echo "<h2>Race Off</h2>";
 			//if($counter==8) echo "<h2>Final</h2>";
 			
@@ -62,7 +62,7 @@
 					
 					$idr=$row1['idrider'];
 					
-					printf("%'.-30s <input type='number' value='$number' name='number'/><input type='hidden' value=$idr name='idr'/><input type='hidden' value=$event name='event'/><input type='submit' value='Set number'/><input type='submit' value='Clear' name='clr'/>",$name);
+					printf("%'.-30s <input type='number' value='$number' name='number'/><input type='hidden' value=$idr name='idr'/><input type='hidden' value=$event name='event'/><input type='submit' value='Set number'/><input type='submit' value='Remove' name='clr'/>",$name);
 					echo "</form>";
 					echo "<br/>";
 					$number++;

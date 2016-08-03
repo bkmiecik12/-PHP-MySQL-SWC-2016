@@ -1,0 +1,66 @@
+body
+{
+	background-color: #0a0b19;
+	color: #f0ffff;
+	font-family: 'Exo', sans-serif;
+	font-size:20px;
+	text-align:center;
+}
+#main
+{
+	font-size:15px;
+	text-align:left !important;
+	font-family: 'Source Code Pro', monospace;
+	width:1000px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.team
+{
+	float:left;
+	width:500px;
+	height:229.5px;
+}
+.results
+{
+	font-size:25px;
+	width:500px;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:left;
+}
+h2
+{
+	font-size:35px;
+	line-height:15px;
+}
+
+h4
+{
+	font-size:25px;
+	line-height:15px;
+}
+
+
+
+a.link
+{
+	text-decoration: none;
+	color: #6167de;
+}
+a.link:hover
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+
+a.linkrev
+{
+	text-decoration: none;
+	color: #ffffff;
+}
+a.linkrev:hover
+{
+	text-decoration: none;
+	color: #6167de;
+}

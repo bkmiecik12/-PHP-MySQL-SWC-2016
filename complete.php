@@ -23,9 +23,9 @@
 		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
 	}
 	
-	$event="raceoff";
+	$event="final";
 	
-	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE (teams.semiplace BETWEEN 2 AND 3 AND colors.idcolor=teams.rh) ORDER BY event DESC, sh";
+	$ask_team= "SELECT team,manager,color,event FROM teams,colors WHERE ((teams.semiplace=1 OR teams.roplace=1 OR teams.event='Final') AND colors.idcolor=teams.rh) ORDER BY event DESC, sh";
 	
 	$res=@$connection->query($ask_team);
 	
@@ -34,7 +34,7 @@
 		$counter=0;
 		while($row = $res->fetch_array())
 		{
-			if($counter==0) echo "<h2>Race Off</h2>";
+			if($counter==0) echo "<h2>Final</h2>";
 			//if($counter==4) echo "<h2>Race Off</h2>";
 			//if($counter==8) echo "<h2>Final</h2>";
 			

@@ -3,20 +3,85 @@
 <head>
 	<meta  charset="utf-8"/>
 	<title>Monster Energy FIM Speedway World Cup 2016</title>
+	<link rel="stylesheet" href="style.css" type="text/css"/>
+	<link href="https://fonts.googleapis.com/css?family=Exo:700&subset=latin-ext" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="Chart.js"></script>
+	
+	<?php
+	echo '<script type="text/javascript">
+		google.charts.load("current", {"packages":["corechart"]});
+		google.charts.setOnLoadCallback(drawChart1);
+		google.charts.setOnLoadCallback(drawChart2);
+		google.charts.setOnLoadCallback(drawChart3);
+		google.charts.setOnLoadCallback(drawChart4);';
+	require_once "connect.php";
+	
+	$connection = new mysqli($host,$db_user,$db_password,$db_name);
+	mysqli_set_charset($connection, "utf8");
+	
+	if($connection->connect_errno!=0)
+	{
+		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
+	}
+	
+	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE (teams.semiplace BETWEEN 2 AND 3) AND colors.idcolor=teams.rh ORDER BY rh";
+	
+	$res=@$connection->query($ask_team);
+	
+	$num=0;
+	while($row = $res->fetch_array())
+	{
+		$num++;
+		$team =  $row['team'];
+		echo '
+		function drawChart'.$num.'() {
+
+        var data'.$num.' = google.visualization.arrayToDataTable([["Rider", "Points"],';
+		
+		$ask_rider = "SELECT riders.name,raceoff.sum FROM teams,riders,raceoff WHERE teams.team='$team' AND riders.team=teams.idteam AND raceoff.idrider=riders.idrider AND raceoff.number>0 ORDER BY number";
+			
+			$res1 = @$connection->query($ask_rider);
+		$licz=0;
+		while($row1 = $res1->fetch_array())
+				{
+					$licz++;
+					$name=$row1['name'];
+					$points=$row1['sum'];
+					echo '["'.$name.'",'.$points.']';
+					if($licz<=4) echo ',';
+				}
+				$licz=0;
+          echo ']);
+
+        var options'.$num.' = {
+			title: "'.$team.'"
+        };
+
+        var chart'.$num.' = new google.visualization.PieChart(document.getElementById("piechart'.$num.'"));
+
+        chart'.$num.'.draw(data'.$num.', options'.$num.');
+      }
+    ';
+	}
+	echo '</script>';
+	$res->close();
+	?>
 </head>
 
 <body>
 	<h2>Monster Energy FIM Speedway World Cup 2016 - Race Off (Manchester)</h2>
 	
 	<p>
-		[<a href="index.php">Main page</a>]
-		[<a href="vojens.php">Event 1 (Vojens)</a>]
-		[<a href="vastervik.php">Event 2 (Västervik)</a>]
-		[<a href="final.php">Final (Manchester)</a>]
-	</p><b>Race Off (Manchester)</b> [<a href="complete.php">Complete results</a>]</h3>
+		[<a href="index.php" class="link">Main page</a>]
+		[<a href="vojens.php" class="link">Event 1 (Vojens)</a>]
+		[<a href="vastervik.php" class="link">Event 2 (Västervik)</a>]
+		[<a href="final.php" class="link">Final (Manchester)</a>]
+	</p><b>Race Off (Manchester)</b>
 	
-	<form style='font-family: monospace' >
-	<font size=4>
+<div id="main">
 <?php
 	
 	require_once "connect.php";
@@ -34,7 +99,7 @@
 	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE  teams.semiplace BETWEEN 2 AND 3 AND teams.rh=colors.idcolor ORDER BY rh";
 	
 	$res=@$connection->query($ask_team);
-	
+	$num1=0;
 	if($res)
 	{
 		if($res->num_rows==0) {echo "Semis have not raced";}
@@ -42,6 +107,8 @@
 		{
 			while($row = $res->fetch_array())
 			{
+				$num1++;
+				echo '<div class="team">';
 				$team = $row['team'];
 				$manager = $row['manager'];
 				$color = $row['color'];
@@ -85,9 +152,9 @@
 					
 						$update="UPDATE $venue SET sum = '$sumr' WHERE idrider='$idr'";
 					
-						@$connection->query($update);
+						//@$connection->query($update);
 					
-						printf("%d. %'.-40s %d ",$number,$name,$sumr);
+						printf("%d. %'.-30s %d ",$number,$name,$sumr);
 						if(strlen($points)>0)
 						{
 							printf("(");
@@ -106,8 +173,9 @@
 				echo "<br />";
 			
 				$updres="UPDATE teams SET ropoints = '$sumt' WHERE team='$team'";		
-				@$connection->query($updres);
+				//@$connection->query($updres);
 			
+				echo '</div><div id="piechart'.$num1.'" style="width: 500px; height: 219.5px; float:left; margin-top:10px; background-color:0a0b19#; color:#ffffff;"></div><div style=" clear:both;"></div>';
 			
 			}
 				$actualplaces="SELECT team FROM teams WHERE semiplace BETWEEN 2 AND 3 ORDER BY ropoints DESC, idteam ASC";
@@ -115,15 +183,15 @@
 				$place=1;
 				$prize1="";
 				$prize2="";
-				echo "Current results</br>";
+				echo '</div><div class="results"><u>Results</u></br>';
 				while($row3 = $res3->fetch_array())
 				{
 					$team=$row3['team'];
-					if($place==1) {$prize1="<b>"; $prize2="</b>";}
+					if($place==1) {$prize1="<b>"; $prize2=" - FINAL</b>";}
 					else if($place>=2 && $place<=4) {$prize1=""; $prize2="";}
 					printf("%d. %s%s%s</br>",$place,$prize1,$team,$prize2);
 					$newplace="UPDATE teams SET roplace='$place' WHERE team='$team'";
-					@$connection->query($newplace);
+					//@$connection->query($newplace);
 					$place++;
 				}
 				
@@ -137,7 +205,6 @@
 			
 		
 ?>
-</font>
-</form>
+</div>
 </body>
 </html>

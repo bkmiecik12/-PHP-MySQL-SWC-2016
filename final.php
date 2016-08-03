@@ -3,28 +3,86 @@
 <head>
 	<meta  charset="utf-8"/>
 	<title>Monster Energy FIM Speedway World Cup 2016</title>
-	<script type="text/javascript">
-// <![CDATA[
-function flash(id, kolor, czas, kolor2, czas2)
-{
-	document.getElementById(id).style.color = kolor;
-	setTimeout('flash("' + id + '","' + kolor2 + '",' + czas2 + ',"' + kolor + '",' + czas + ')', czas);
-}
-// ]]>
-</script>
+	<link rel="stylesheet" href="style.css" type="text/css"/>
+	<link href="https://fonts.googleapis.com/css?family=Exo:700&subset=latin-ext" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script src="Chart.js"></script>
+	
+	<?php
+	echo '<script type="text/javascript">
+		google.charts.load("current", {"packages":["corechart"]});
+		google.charts.setOnLoadCallback(drawChart1);
+		google.charts.setOnLoadCallback(drawChart2);
+		google.charts.setOnLoadCallback(drawChart3);
+		google.charts.setOnLoadCallback(drawChart4);';
+	require_once "connect.php";
+	
+	$connection = new mysqli($host,$db_user,$db_password,$db_name);
+	mysqli_set_charset($connection, "utf8");
+	
+	if($connection->connect_errno!=0)
+	{
+		echo "Error: ".$connection->connect_errno . "Description: ".$connection->connect_error;
+	}
+	
+	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE (event='FINAL' OR semiplace=1 OR roplace=1) AND colors.idcolor=teams.fh ORDER BY fh";
+	
+	$res=@$connection->query($ask_team);
+	
+	$num=0;
+	while($row = $res->fetch_array())
+	{
+		$num++;
+		$team =  $row['team'];
+		echo '
+		function drawChart'.$num.'() {
+
+        var data'.$num.' = google.visualization.arrayToDataTable([["Rider", "Points"],';
+		
+		$ask_rider = "SELECT riders.name,final.sum FROM teams,riders,final WHERE teams.team='$team' AND riders.team=teams.idteam AND final.idrider=riders.idrider AND final.number>0 ORDER BY number";
+			
+			$res1 = @$connection->query($ask_rider);
+		$licz=0;
+		while($row1 = $res1->fetch_array())
+				{
+					$licz++;
+					$name=$row1['name'];
+					$points=$row1['sum'];
+					echo '["'.$name.'",'.$points.']';
+					if($licz<=4) echo ',';
+				}
+				$licz=0;
+          echo ']);
+
+        var options'.$num.' = {
+          title: "'.$team.'"
+        };
+
+        var chart'.$num.' = new google.visualization.PieChart(document.getElementById("piechart'.$num.'"));
+
+        chart'.$num.'.draw(data'.$num.', options'.$num.');
+      }
+    ';
+	}
+	echo '</script>';
+	$res->close();
+	?>
+	
+	
 </head>
 <body>
 	<h2>Monster Energy FIM Speedway World Cup 2016 - Final (Manchester)</h2>
 	
 	<p>
-		[<a href="index.php">Main page</a>]
-		[<a href="vojens.php">Event 1 (Vojens)</a>]
-		[<a href="vastervik.php">Event 2 (Västervik)</a>]
-		[<a href="raceoff.php">Race Off (Manchester)</a>]
-	</p><b>Final (Manchester)</b> <!--[<a href="complete.php">Complete results</a>]-->  [<a href="setnumbers.php">Set numbers</a>]</h3>
+		[<a href="index.php" class="link">Main page</a>]
+		[<a href="vojens.php" class="link">Event 1 (Vojens)</a>]
+		[<a href="vastervik.php" class="link">Event 2 (Västervik)</a>]
+		[<a href="raceoff.php" class="link">Race Off (Manchester)</a>]
+	</p><b>Final (Manchester)</b>
 	
-	<form style='font-family: monospace' >
-	<font size=4>
+	<div id="main">
 <?php
 	
 	require_once "connect.php";
@@ -42,7 +100,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 	$ask_team= "SELECT team,manager,color FROM teams,colors WHERE (semiplace = 1 OR roplace = 1 OR teams.event = 'Final') AND teams.fh=colors.idcolor ORDER BY fh";
 	
 	$res=@$connection->query($ask_team);
-	
+	$num1=0;
 	if($res)
 	{
 		if($res->num_rows==0) {echo "Semis have not raced";}
@@ -50,6 +108,8 @@ function flash(id, kolor, czas, kolor2, czas2)
 		{
 			while($row = $res->fetch_array())
 			{
+				$num1++;
+				echo '<div class="team">';
 				$team = $row['team'];
 				$manager = $row['manager'];
 				$color = $row['color'];
@@ -93,9 +153,9 @@ function flash(id, kolor, czas, kolor2, czas2)
 					
 						$update="UPDATE $venue SET sum = '$sumr' WHERE idrider='$idr'";
 					
-						@$connection->query($update);
+						//@$connection->query($update);
 					
-						printf("%d. %'.-40s %d ",$number,$name,$sumr);
+						printf("%d. %'.-30s %d ",$number,$name,$sumr);
 						if(strlen($points)>0)
 						{
 							printf("(");
@@ -113,9 +173,9 @@ function flash(id, kolor, czas, kolor2, czas2)
 				else echo "skopane2";
 				echo "<br />";
 			
-				$updres="UPDATE teams SET semipoints = '$sumt' WHERE team='$team'";		
-				@$connection->query($updres);
-			
+				$updres="UPDATE teams SET finalpoints = '$sumt' WHERE team='$team'";		
+				//@$connection->query($updres);
+			echo '</div><div id="piechart'.$num1.'" style="width: 500px; height: 209.5px; float:left; margin-top:10px;"></div><div style=" clear:both;"></div>';
 			
 			}
 				$actualplaces="SELECT team FROM teams WHERE (semiplace = 1 OR roplace = 1 OR teams.event = 'Final') ORDER BY finalpoints DESC, idteam ASC";
@@ -123,7 +183,7 @@ function flash(id, kolor, czas, kolor2, czas2)
 				$place=1;
 				$prize1="";
 				$prize2="";
-				echo "Current results</br>";
+				echo '</div><div class="results"><u>Results</u></br>';
 				while($row3 = $res3->fetch_array())
 				{
 					$team=$row3['team'];
@@ -146,7 +206,6 @@ function flash(id, kolor, czas, kolor2, czas2)
 			
 
 ?>
-</font>
-</form>
+</div>
 </body>
 </html>

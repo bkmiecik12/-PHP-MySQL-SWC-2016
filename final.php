@@ -207,5 +207,6 @@
 
 ?>
 </div>
+<div id="footer">&copy 2016 Bartłomiej Kmiecik. All rights reserved. Or not.</div>
 </body>
 </html>

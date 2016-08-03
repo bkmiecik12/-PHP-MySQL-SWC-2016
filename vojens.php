@@ -178,7 +178,7 @@
 			$prize1="";
 			$prize2="";
 			
-			echo '</div><div class="results">Results</br>';
+			echo '</div><div class="results"><u>Results</u></br>';
 			while($row3 = $res3->fetch_array())
 			{
 					$team=$row3['team'];
@@ -196,5 +196,6 @@
 		
 ?>
 </div>
+<div id="footer">&copy 2016 Bartłomiej Kmiecik. All rights reserved. Or not.</div>
 </body>
 </html>
